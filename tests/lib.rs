@@ -1,12 +1,12 @@
 
 #[cfg(test)]
 mod tests {
-    use rust_graph::graph::Roots;
-    use rust_graph::graph::RootsFeatures;
+    use rust_graph::graph::GraphMap;
+    use rust_graph::graph::GraphMapFeatures;
     
     #[test]
     fn from_sample_lookup_and_rlookup() {
-        let mut roots = Roots::with_capacity(100000);
+        let mut roots = GraphMap::with_capacity(100000);
         
         let phone_x = 1;
         let phone_y = 2;

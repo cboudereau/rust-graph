@@ -20,16 +20,16 @@ impl<T> Node<T> {
     }
 }
 
-pub type Roots<T> = HashMap<T, Rc<RefCell<Node<T>>>>;
+pub type GraphMap<T> = HashMap<T, Rc<RefCell<Node<T>>>>;
 
-pub trait RootsFeatures<T> {
+pub trait GraphMapFeatures<T> {
     fn with_capacity(capacity:usize) -> Self;
     fn add_edge(&mut self, x:T, y:T) -> &Self;
     fn lookup(&mut self, x:T) -> Option<Vec<T>>;
     fn rlookup(&mut self, x:T) -> Option<Vec<T>>;
 }
 
-impl<T:Eq + Hash + Copy> RootsFeatures<T> for Roots<T> {
+impl<T:Eq + Hash + Copy> GraphMapFeatures<T> for GraphMap<T> {
     fn with_capacity(capacity:usize) -> Self {
         HashMap::with_capacity(capacity)
     }
