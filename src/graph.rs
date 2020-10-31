@@ -78,7 +78,7 @@ impl<T:Eq + Hash + Copy> GraphMapFeatures<T> for GraphMap<T> {
 
         let myself = *&node.borrow().value;
         &node.borrow().traverse(&mut top);
-        let result = top.difference(alreadyfollowed).into_iter().map (|x| *x).filter(|x| *x != myself).collect::<Vec<_>>();
+        let result = top.difference(alreadyfollowed).into_iter().map (|x| *x).filter(|x| *x != myself).take(10).collect::<Vec<_>>();
         Some (result)
     }
 }
