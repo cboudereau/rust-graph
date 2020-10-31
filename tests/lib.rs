@@ -44,6 +44,7 @@ mod tests {
         assert_eq!(&Some (vec! [1]), &graph.lookup(phone_p));
         assert_eq!(&Some (vec! []), &graph.rlookup(phone_p));
 
-        assert_eq!(&Some(vec!(1, 2, 3).into_iter().collect()), &graph.suggest(phone_x).map(|x| x.into_iter().collect::<HashSet<_>>()));
+        // p can follow x and y since p -> x -> y (2) -> z (3)
+        assert_eq!(&Some(vec!(2, 3).into_iter().collect()), &graph.suggest(phone_p).map(|x| x.into_iter().collect::<HashSet<_>>()));
     }
 }

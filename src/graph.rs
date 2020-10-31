@@ -70,22 +70,15 @@ impl<T:Eq + Hash + Copy> GraphMapFeatures<T> for GraphMap<T> {
         Some (x.borrow().outgoing.iter().map(|x| x.borrow().value).collect::<Vec<_>>()) 
     }
 
-    // x -> y -> z
-    // x -> z
     fn suggest(&self, x:T) -> Option<Vec<T>> {
         let node = &self.get(&x)?;
         let mut top : HashSet<T> = HashSet::new();
         
-        &node.borrow().traverse(&mut top);
-        Some (top.into_iter().collect::<Vec<_>>())
-        // let alreadyfollowed = &node.borrow().incoming.iter().map(|x| x.borrow().value).collect::<HashSet<_>>();
-        // let len = top.capacity() - top.len();
+        let alreadyfollowed = &node.borrow().incoming.iter().map(|x| x.borrow().value).collect::<HashSet<_>>();
 
-        // if len > 0 {
-        //     todo!();
-                
-        // } else {
-        //     return Some (top.iter().map(|x| *x).collect::<Vec<_>>());
-        // }
+        let myself = *&node.borrow().value;
+        &node.borrow().traverse(&mut top);
+        let result = top.difference(alreadyfollowed).into_iter().map (|x| *x).filter(|x| *x != myself).collect::<Vec<_>>();
+        Some (result)
     }
 }
