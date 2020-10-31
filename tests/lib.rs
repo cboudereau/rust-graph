@@ -5,7 +5,7 @@ mod tests {
     use std::collections::HashSet;
     
     #[test]
-    fn from_sample_lookup_and_rlookup() {
+    fn graph_features_tests() {
         let mut graph = GraphMap::with_capacity(100000);
         
         let x = 1;
@@ -44,7 +44,7 @@ mod tests {
         assert_eq!(&Some (vec! [x]), &graph.lookup(p));
         assert_eq!(&Some (vec! []), &graph.rlookup(p));
 
-        // p can follow x and y since p -> x -> y (2) -> z (3)
+        // p can follow y and z since p -> x -> y -> z
         assert_eq!(&Some(vec!(y, z).into_iter().collect()), &graph.suggest(p).map(|x| x.into_iter().collect::<HashSet<_>>()));
     }
 }
