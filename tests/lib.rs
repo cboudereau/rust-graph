@@ -1,8 +1,8 @@
 
 #[cfg(test)]
 mod tests {
-    use rust_graph::graph::GraphMap;
-    use rust_graph::graph::GraphMapFeatures;
+    use rust_graph::graph::{GraphMap, GraphMapFeatures};
+    use std::collections::HashSet;
     
     #[test]
     fn from_sample_lookup_and_rlookup() {
@@ -43,5 +43,7 @@ mod tests {
         // assert p
         assert_eq!(&Some (vec! [1]), &graph.lookup(phone_p));
         assert_eq!(&Some (vec! []), &graph.rlookup(phone_p));
+
+        assert_eq!(&Some(vec!(1, 2, 3).into_iter().collect()), &graph.suggest(phone_x).map(|x| x.into_iter().collect::<HashSet<_>>()));
     }
 }
