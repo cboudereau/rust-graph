@@ -27,6 +27,7 @@ pub trait GraphMapFeatures<T> {
     fn add_edge(&mut self, x:T, y:T) -> &Self;
     fn lookup(&mut self, x:T) -> Option<Vec<T>>;
     fn rlookup(&mut self, x:T) -> Option<Vec<T>>;
+    fn suggest(&self, x:T) -> Option<Vec<T>>;
 }
 
 impl<T:Eq + Hash + Copy> GraphMapFeatures<T> for GraphMap<T> {
@@ -56,5 +57,10 @@ impl<T:Eq + Hash + Copy> GraphMapFeatures<T> for GraphMap<T> {
     fn rlookup(&mut self, x:T) -> Option<Vec<T>> {
         let x = &self.get(&x)?;
         Some (x.borrow().outgoing.iter().map(|x| x.borrow().value).collect::<Vec<_>>()) 
+    }
+
+    fn suggest(&self, x:T) -> Option<Vec<T>> {
+        todo!()
+
     }
 }
