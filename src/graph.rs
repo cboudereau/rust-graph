@@ -19,14 +19,14 @@ impl<T: Eq + Hash + Copy> Node<T> {
         }))
     }
     
-    fn traverse(&self, seen: &mut HashSet<T>)
+    fn traverse_incoming(&self, seen: &mut HashSet<T>)
     {
         if seen.contains(&self.value) {
             return;
         }
         seen.insert(self.value);
         for n in &self.incoming {
-            n.borrow().traverse(seen);
+            n.borrow().traverse_incoming(seen);
         }
     }
 }
@@ -77,7 +77,7 @@ impl<T:Eq + Hash + Copy> GraphMapFeatures<T> for GraphMap<T> {
         let alreadyfollowed = &node.borrow().incoming.iter().map(|x| x.borrow().value).collect::<HashSet<_>>();
 
         let myself = *&node.borrow().value;
-        &node.borrow().traverse(&mut top);
+        &node.borrow().traverse_incoming(&mut top);
         let result = top.difference(alreadyfollowed).into_iter().map (|x| *x).filter(|x| *x != myself).take(10).collect::<Vec<_>>();
         Some (result)
     }
