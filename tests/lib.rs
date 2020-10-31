@@ -6,7 +6,7 @@ mod tests {
     
     #[test]
     fn from_sample_lookup_and_rlookup() {
-        let mut roots = GraphMap::with_capacity(100000);
+        let mut graph = GraphMap::with_capacity(100000);
         
         let phone_x = 1;
         let phone_y = 2;
@@ -14,21 +14,34 @@ mod tests {
         let phone_p = 4;
         
         // x -> y
-        &roots.add_edge(phone_x, phone_y);
+        &graph.add_edge(phone_x, phone_y);
         
         // x -> z
-        &roots.add_edge(phone_x, phone_z);
+        &graph.add_edge(phone_x, phone_z);
         
         // y -> x
-        &roots.add_edge(phone_y, phone_x);
+        &graph.add_edge(phone_y, phone_x);
 
         // y -> z
-        &roots.add_edge(phone_y, phone_z);
+        &graph.add_edge(phone_y, phone_z);
 
         // p -> x
-        &roots.add_edge(phone_p, phone_x);
+        &graph.add_edge(phone_p, phone_x);
 
-        assert_eq!(&Some (vec! [2, 3]), &roots.lookup(phone_x));
-        assert_eq!(&Some (vec! [2, 4]), &roots.rlookup(phone_x));
+        // assert x
+        assert_eq!(&Some (vec! [2, 3]), &graph.lookup(phone_x));
+        assert_eq!(&Some (vec! [2, 4]), &graph.rlookup(phone_x));
+
+        // assert y
+        assert_eq!(&Some (vec! [1, 3]), &graph.lookup(phone_y));       
+        assert_eq!(&Some (vec! [1]), &graph.rlookup(phone_y));       
+
+        // assert z
+        assert_eq!(&Some (vec! []), &graph.lookup(phone_z));
+        assert_eq!(&Some (vec! [1, 2]), &graph.rlookup(phone_z));
+
+        // assert p
+        assert_eq!(&Some (vec! [1]), &graph.lookup(phone_p));
+        assert_eq!(&Some (vec! []), &graph.rlookup(phone_p));
     }
 }
