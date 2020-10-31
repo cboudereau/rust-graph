@@ -6,7 +6,7 @@ mod tests {
     
     #[test]
     fn graph_features_tests() {
-        let mut graph = GraphMap::with_capacity(100000);
+        let mut graph = GraphMap::with_capacity(100);
         
         let x = 1;
         let y = 2;
