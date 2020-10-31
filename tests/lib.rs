@@ -8,10 +8,10 @@ mod tests {
     fn graph_features_tests() {
         let mut graph = GraphMap::with_capacity(100);
         
-        let x = 1;
-        let y = 2;
-        let z = 3;
-        let p = 4;
+        let x = 1u64;
+        let y = 2u64;
+        let z = 3u64;
+        let p = 4u64;
         
         // x -> y
         &graph.add_edge(x, y);
