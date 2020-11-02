@@ -7,21 +7,16 @@ pub fn main () {
     
     let mut graph = GraphMap::with_capacity(100_000_000);
     
-    // Space problem (max 30M), timing are good though.
+    // Space problem (max 50M @ 50GB), timing are good though.
     
-    // 20M
-    // [116008] initialized
-    // [116010] lookup: 50  (+2ms)
-    // [116011] rlookup: 50 (+1ms)
-    // [116016] suggest: 10 (+5ms)
+    // top: 50_000_000
+    // [254385] initialized (+254s)
+    // [254405] lookup: 50  (+20ms)
+    // [254405] rlookup: 50 (+0ms)
+    // [254461] suggest: 10 (+56ms)
 
-    // 30M
-    // [160088] initialized
-    // [160093] lookup: 50  (+5ms)
-    // [160093] rlookup: 50 (+0ms)
-    // [160114] suggest: 10 (+9ms)
 
-    for i in 1..=10_000_000u32 {
+    for i in 1..=50_000_000u32 {
         if i % 1000_000 == 0 {
             println!("top: {}", i);
         }
