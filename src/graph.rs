@@ -14,8 +14,8 @@ impl<T: Eq + Hash + Copy> Node<T> {
     fn new(value: T) -> Rc<RefCell<Node<T>>> {
         Rc::new(RefCell::new(Node {
             value: value,
-            incoming: Vec::new(),
-            outgoing: Vec::new()
+            incoming: Vec::with_capacity(100),
+            outgoing: Vec::with_capacity(100)
         }))
     }
     
