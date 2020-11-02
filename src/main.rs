@@ -10,22 +10,23 @@ pub fn main () {
     // Space problem (max 50M @ 50GB), timing are good though.
     
     // top: 50_000_000
-    // [254385] initialized (+254s)
-    // [254405] lookup: 50  (+20ms)
-    // [254405] rlookup: 50 (+0ms)
-    // [254461] suggest: 10 (+56ms)
-
-
+    // [201512] initialized (+200s)
+    // [201514] lookup: 50  (+12ms)
+    // [201516] rlookup: 50 (+4ms)
+    // [201525] suggest: 10 (+9ms)
+    
     for i in 1..=50_000_000u32 {
         if i % 1000_000 == 0 {
             println!("top: {}", i);
         }
-
+        let i_node = &graph.add_node(i);
         for j in 0..50 {
             if i > j {            
-                &graph.add_edge(i, i-j);
+                let j_node = &graph.add_node(i-j);
+                &graph.add_edge(i_node, j_node);
             } else {
-                &graph.add_edge(i, i+j);
+                let j_node = &graph.add_node(i+j);
+                &graph.add_edge(i_node, j_node);
             }
         }
     }
