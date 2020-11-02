@@ -10,8 +10,10 @@ pub struct Node<T> {
     outgoing: Vec<Rc<RefCell<Node<T>>>>,
 }
 
+type RefNode<T> = Rc<RefCell<Node<T>>>;
+
 impl<T: Eq + Hash + Copy> Node<T> {
-    fn new(value: T) -> Rc<RefCell<Node<T>>> {
+    fn new(value: T) -> RefNode<T> {
         Rc::new(RefCell::new(Node {
             value: value,
             incoming: Vec::with_capacity(55),
@@ -31,11 +33,12 @@ impl<T: Eq + Hash + Copy> Node<T> {
     }
 }
 
-pub type GraphMap<T> = HashMap<T, Rc<RefCell<Node<T>>>>;
+pub type GraphMap<T> = HashMap<T, RefNode<T>>;
 
 pub trait GraphMapFeatures<T> {
     fn with_capacity(capacity:usize) -> Self;
-    fn add_edge(&mut self, x:T, y:T) -> &Self;
+    fn add_node(&mut self, x:T) -> RefNode<T>;
+    fn add_edge(&mut self, x:&RefNode<T>, y:&RefNode<T>) -> &Self;
     fn lookup(&mut self, x:T) -> Option<Vec<T>>;
     fn rlookup(&mut self, x:T) -> Option<Vec<T>>;
     fn suggest(&self, x:T) -> Option<Vec<T>>;
@@ -46,17 +49,19 @@ impl<T:Eq + Hash + Copy> GraphMapFeatures<T> for GraphMap<T> {
         HashMap::with_capacity(capacity)
     }
 
-    fn add_edge(&mut self, x:T, y:T) -> &Self {
-        let nx : &Rc<RefCell<Node<T>>> = &self.entry(x).or_insert_with(|| Node::new(x)).clone();
-        let ny : &Rc<RefCell<Node<T>>> = &self.entry(y).or_insert_with(|| Node::new(y)).clone();
+    fn add_node(&mut self, x:T) -> RefNode<T> {
+        self.entry(x).or_insert_with(|| Node::new(x)).clone()
+    }
+
+    fn add_edge(&mut self, x:&RefNode<T>, y:&RefNode<T>) -> &Self {
         
         {
-            let mut mut_x = nx.borrow_mut();
-            &mut_x.incoming.push(ny.clone());
+            let mut mut_x = x.borrow_mut();
+            &mut_x.incoming.push(y.clone());
         }
         {
-            let mut mut_y = ny.borrow_mut();
-            &mut_y.outgoing.push(nx.clone());
+            let mut mut_y = y.borrow_mut();
+            &mut_y.outgoing.push(x.clone());
         }
         
         self
