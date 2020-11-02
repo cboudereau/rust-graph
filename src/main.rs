@@ -21,7 +21,7 @@ pub fn main () {
     // [160093] rlookup: 50 (+0ms)
     // [160114] suggest: 10 (+9ms)
 
-    for i in 1..=30_000_000u32 {
+    for i in 1..=10_000_000u32 {
         if i % 1000_000 == 0 {
             println!("top: {}", i);
         }
