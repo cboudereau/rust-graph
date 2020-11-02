@@ -52,8 +52,10 @@ impl<T:Eq + Hash + Copy> GraphMapFeatures<T> for GraphMap<T> {
         
         {
             let mut mut_x = nx.borrow_mut();
-            let mut mut_y = ny.borrow_mut();
             &mut_x.incoming.push(ny.clone());
+        }
+        {
+            let mut mut_y = ny.borrow_mut();
             &mut_y.outgoing.push(nx.clone());
         }
         
