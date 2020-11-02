@@ -1,6 +1,7 @@
 use rust_graph::graph::{GraphMap, GraphMapFeatures};
 use std::time::Instant;
 
+// cargo build --release && .\target\release\rust-graph.exe
 pub fn main () {
     let now = Instant::now();    
     
@@ -10,13 +11,15 @@ pub fn main () {
     
     // 20M
     // [116008] initialized
-    // [116010] lookup: 50
-    // [116011] rlookup: 50
+    // [116010] lookup: 50  (+2ms)
+    // [116011] rlookup: 50 (+1ms)
+    // [116016] suggest: 10 (+5ms)
 
     // 30M
-    // [185621] initialized
-    // [185622] lookup: 50
-    // [185624] rlookup: 50
+    // [160088] initialized
+    // [160093] lookup: 50  (+5ms)
+    // [160093] rlookup: 50 (+0ms)
+    // [160114] suggest: 10 (+9ms)
 
     for i in 1..=30_000_000u32 {
         if i % 1000_000 == 0 {
@@ -41,4 +44,8 @@ pub fn main () {
     let rl = &graph.rlookup(1000).unwrap().len();
 
     println!("[{}] rlookup: {:?}", now.elapsed().as_millis(), rl);
+
+    let sl = &graph.suggest(1000).unwrap().len();
+
+    println!("[{}] suggest: {:?}", now.elapsed().as_millis(), sl);
 }
