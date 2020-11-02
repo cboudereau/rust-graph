@@ -18,7 +18,7 @@ pub fn main () {
     // [185622] lookup: 50
     // [185624] rlookup: 50
 
-    for i in 1..=20_000_000u32 {
+    for i in 1..=30_000_000u32 {
         if i % 1000_000 == 0 {
             println!("top: {}", i);
         }
